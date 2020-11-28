@@ -12,6 +12,7 @@ using MediatR;
 using FluentValidation;
 using eMall.Application.CQRS.Behaviors;
 using eMall.Application;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace eMall.Web
 {
@@ -52,6 +53,11 @@ namespace eMall.Web
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
 
             services.AddValidatorsFromAssembly(typeof(ApplicaitonModule).Assembly);
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,11 +75,27 @@ namespace eMall.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+            });
+
+             app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
