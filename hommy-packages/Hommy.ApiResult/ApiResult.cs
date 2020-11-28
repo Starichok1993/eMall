@@ -19,7 +19,7 @@ namespace Hommy.ApiResult
             StatusCode = statusCode ?? value.GetStatusCode();
         }
 
-        public static implicit operator ApiResult(Result value)
+        public static implicit operator ApiResult(ResultBase value)
         {
             return new ApiResult(value);
         }
