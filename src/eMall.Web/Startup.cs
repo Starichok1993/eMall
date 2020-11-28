@@ -8,6 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Hommy.ApiResult;
+using MediatR;
+using FluentValidation;
+using eMall.Application.CQRS.Behaviors;
+using eMall.Application;
 
 namespace eMall.Web
 {
@@ -40,6 +44,14 @@ namespace eMall.Web
             });
 
             services.AddScoped<DbContext, EMallDbContext>();
+
+            services.AddMediatR(typeof(ApplicaitonModule));
+
+            //services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+
+            services.AddValidatorsFromAssembly(typeof(ApplicaitonModule).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

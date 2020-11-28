@@ -5,24 +5,24 @@ using Hommy.ApiResult;
 using eMall.Domain.Entities;
 using System.Linq;
 using Hommy.ResultModel;
+using MediatR;
+using eMall.Application.Features.App.Queries;
 
 namespace eMall.Web.Controllers
 {
     public class AppController : ApiControllerBase
     {
-        private readonly DbContext _dbContext;
+        private readonly ISender _sender;
 
-        public AppController(DbContext dbContext)
+        public AppController(ISender sender)
         {
-            _dbContext = dbContext;
+            _sender = sender;
         }
 
         [HttpGet("ping")]
         public async Task<ApiResult> Ping()
         {
-            var dbVersion = await _dbContext.Set<DbVersion>().OrderBy(x => x.DateApplied).FirstOrDefaultAsync();
-
-            return Result.Success(dbVersion.Version);
+            return await _sender.Send(new PingQuery());
         }
     }
 }
