@@ -5,7 +5,7 @@ namespace Hommy.ApiResult
 {
     public static class ApiResultResultExtensions
     {
-        public static int GetStatusCode(this Result result)
+        public static int GetStatusCode(this ResultBase result)
         {
             if (result.IsSuccess)
             {

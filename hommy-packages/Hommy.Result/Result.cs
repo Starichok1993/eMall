@@ -1,14 +1,39 @@
 ﻿namespace Hommy.ResultModel
 {
-    public class Result
+    public abstract class ResultBase
     {
         public bool IsSuccess => Failure == null;
 
-        public Failure Failure { get; private set; }
+        public Failure Failure { get; set; }
 
-        public Result(Failure failure)
+        protected ResultBase(Failure failure)
         {
             Failure = failure;
+        }
+
+        protected ResultBase()
+        {
+        }
+    }
+
+    public abstract class ResultBase<TResult> : ResultBase
+        where TResult : ResultBase<TResult>
+    {
+        protected ResultBase(Failure failure) : base(failure)
+        {
+        }
+
+        protected ResultBase()
+        {
+        }
+    }
+
+    public class Result : ResultBase<Result>
+    {
+
+        public Result(Failure failure) : base(failure)
+        {
+
         }
 
         public Result()
@@ -20,42 +45,50 @@
             return new Result();
         }
 
-        public static Failure Fail(string message)
+        public static Result<TObject> Success<TObject>(TObject value)
         {
-            return new Failure(message);
+            return new Result<TObject>(value);
         }
 
-        public static Failure NotFound(string message)
+        public static Result Fail(Failure failure)
         {
-            return new NotFoundFailure(message);
+            return new Result(failure);
         }
 
-        public static Failure Unauthorized(string message)
+        public static Result Fail(string message)
         {
-            return new UnauthorizedFailure(message);
+            return Fail(new Failure(message));
         }
 
-        public static Failure Forbidden(string message)
+        public static Result NotFound(string message)
         {
-            return new ForbiddenFailure(message);
+            return Fail(new NotFoundFailure(message));
         }
 
-        public static Failure ValidationError(ValidationError validationError)
+        public static Result Unauthorized(string message)
         {
-            return new ValidationFailure(validationError);
+            return Fail(new UnauthorizedFailure(message));
         }
 
-        public static Failure ValidationError(ValidationError[] validationErrors)
+        public static Result Forbidden(string message)
         {
-            return new ValidationFailure(validationErrors);
+            return Fail(new ForbiddenFailure(message));
         }
 
-        public static implicit operator Result(Failure failure) => new Result(failure);
+        public static Result ValidationError(ValidationError validationError)
+        {
+            return Fail(new ValidationFailure(validationError));
+        }
+
+        public static Result ValidationError(ValidationError[] validationErrors)
+        {
+            return Fail(new ValidationFailure(validationErrors));
+        }
     }
 
-    public class Result<TObject> : Result
+    public class Result<TObject> : ResultBase<Result<TObject>>
     {
-        public TObject Data { get; set; }
+        public TObject Data { get; }
 
         public Result()
         {
@@ -75,6 +108,14 @@
             return new Result<TObject>(value);
         }
 
-        public static implicit operator Result<TObject>(Failure failure) => new Result<TObject>(failure);
+        public static implicit operator Result<TObject>(Result result)
+        {
+            return new Result<TObject>(result.Failure);
+        }
+
+        public static implicit operator Result(Result<TObject> result)
+        {
+            return new Result(result.Failure);
+        }
     }
 }

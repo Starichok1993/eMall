@@ -9,11 +9,11 @@ namespace Hommy.ApiResult
 {
     public class ApiResult : ActionResult, IStatusCodeActionResult
     {
-        public Result Value { get; set; }
+        public ResultBase Value { get; set; }
 
         public int? StatusCode { get; set; }
 
-        public ApiResult(Result value, int? statusCode = null)
+        public ApiResult(ResultBase value, int? statusCode = null)
         {
             Value = value;
             StatusCode = statusCode ?? value.GetStatusCode();
