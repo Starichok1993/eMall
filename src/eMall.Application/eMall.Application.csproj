@@ -15,4 +15,8 @@
     <ProjectReference Include="..\..\hommy-packages\Hommy.Result\Hommy.ResultModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Products\Commands\" />
+  </ItemGroup>
+
 </Project>

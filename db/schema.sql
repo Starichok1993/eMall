@@ -6,3 +6,12 @@ CREATE TABLE db_version (
   DateApplied DATETIME NOT NULL,
   PRIMARY KEY (Id)
  );
+
+-- Table product
+CREATE TABLE product (
+  Id int(11) unsigned NOT NULL,
+  Name VARCHAR(32) NOT NULL,
+  Description TEXT NOT NULL,
+  Price DECIMAL(13,2) NOT NULL,
+  PRIMARY KEY (Id)
+ );
