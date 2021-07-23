@@ -7,8 +7,8 @@ using Hommy.ResultModel;
 using MediatR;
 
 namespace eMall.Application.CQRS.Behaviors
-{
-public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+{   
+    public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
         where TResponse : ResultBase, new()
     {
@@ -17,10 +17,6 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
         public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
-        }
-
-        public ValidationPipelineBehavior()
-        {
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

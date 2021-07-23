@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using eMall.Application.CQRS;
 using eMall.Domain.Entities;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eMall.Application.Features.App.Queries
 {
-    public class PingQuery : IQuery<string>
+    public record PingQuery : IQuery<string>
     {        
     }
 

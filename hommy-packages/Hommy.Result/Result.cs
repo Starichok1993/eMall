@@ -57,7 +57,7 @@
 
         public static Result Fail(string message)
         {
-            return Fail(new Failure(message));
+            return Fail(new BadRequestFailure(message));
         }
 
         public static Result NotFound(string message)

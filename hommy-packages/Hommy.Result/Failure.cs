@@ -3,13 +3,20 @@ using System.Linq;
 
 namespace Hommy.ResultModel
 {
-    public class Failure
+    public abstract class Failure
     {
-        public string Message { get; set; }
+        public string Message { get; }
 
         public Failure(string message)
         {
             Message = message;
+        }
+    }
+
+    public class BadRequestFailure : Failure
+    {
+        public BadRequestFailure(string message) : base(message)
+        {
         }
     }
 

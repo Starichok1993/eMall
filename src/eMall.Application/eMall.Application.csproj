@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,5 +19,4 @@
   <ItemGroup>
     <Folder Include="Features\Products\Commands\" />
   </ItemGroup>
-
 </Project>

@@ -35,7 +35,6 @@ namespace eMall.Web
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    options.JsonSerializerOptions.Converters.Add(new FailureJsonConverter());
                 });
 
             services.AddApiResult();
